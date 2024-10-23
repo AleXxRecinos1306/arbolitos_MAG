@@ -4,7 +4,9 @@
 #include <iostream>
 
 struct arbol {
-    ;
+    int dato;
+    arbol *anterior;
+    arbol *siguiente;
 };
     
 
