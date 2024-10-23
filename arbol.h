@@ -5,10 +5,11 @@
 
 struct arbol {
     int dato;
-    arbol *anterior;
-    arbol *siguiente;
+    arbol *anterior=nullptr;
+    arbol *siguiente=nullptr;
 };
     
+void Editar(struct &arbol);
 
 
 #endif
