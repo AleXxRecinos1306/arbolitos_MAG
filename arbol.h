@@ -22,7 +22,7 @@ void Insertar(Arbol *&arbol, int n) {
     // Si el valor es par
     if (n % 2 == 0) {
       Insertar(arbol->derecha, n);
-      // Si es mayor se inserta a la derecha
+      // Si es impar
     } else {
       Insertar(arbol->izquierda, n);
     }
