@@ -6,25 +6,25 @@
 //se crea la estructura
 struct Arbol {
     int dato;
-    Arbol *anterior=nullptr;
-    Arbol *siguiente=nullptr;
+    Arbol *izquierda=nullptr;
+    Arbol *derecha=nullptr;
 
     //con ayuda del constructor se crea un nuevo arbol
     Arbol(int valor) : dato(valor) {}
 };
 
-bool Modificar(Arbol* nodo, int valorAntiguo, int valorNuevo) {
+bool Modificar(Arbol* arbol, int valorAntiguo, int valorNuevo) {
     // Valor no encontrado
-    if (nodo == nullptr) {
+    if (arbol == nullptr) {
         return false; 
     }
     // si coiciden se modifica el valor antiguo
-    if (nodo->dato == valorAntiguo) {
-        nodo->dato = valorNuevo; 
+    if (arbol->dato == valorAntiguo) {
+        arbol->dato = valorNuevo; 
         return true;
     }
     // recursividad con modificar para buscar en arbol anterior y sigguiente
-    return Modificar(nodo->anterior, valorAntiguo, valorNuevo) || Modificar(nodo->siguiente, valorAntiguo, valorNuevo);
+    return Modificar(arbol->izquierda, valorAntiguo, valorNuevo) || Modificar(arbol->derecha, valorAntiguo, valorNuevo);
 }
 
 
