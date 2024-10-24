@@ -19,13 +19,12 @@ void Insertar(Arbol *&arbol, int n) {
     arbol = new Arbol(n);
     // Si existe
   } else {
-    int valorRaiz = arbol->dato;
-    // Y el valor es menor al anterior se inserta a la izquierda
-    if (n < valorRaiz) {
-      Insertar(arbol->izquierda, n);
+    // Si el valor es par
+    if (n % 2 == 0) {
+      Insertar(arbol->derecha, n);
       // Si es mayor se inserta a la derecha
     } else {
-      Insertar(arbol->derecha, n);
+      Insertar(arbol->izquierda, n);
     }
   }
 }
