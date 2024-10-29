@@ -202,8 +202,17 @@ bool Modificar(Arbol* nodo, int valor_viejo, int valor_nuevo) {
   }
   // si coiciden se modifica el valor antiguo
   if (nodo->dato == valor_viejo) {
-    nodo->dato = valor_nuevo;
-    return true;
+    if(Existe(nodo, valor_nuevo)){
+      std::cout << "El nuevo valor ya existe en el arbol" << std::endl;
+      return false;
+    }
+    if ((valor_viejo % 2 == 0 && valor_nuevo % 2 == 0) || (valor_viejo % 2 != 0 && valor_nuevo % 2 != 0)) {
+      nodo->dato = valor_nuevo;
+      return true;
+    }else{
+      std::cout << "El valor nuevo debe ser del mismo tipo (par/impar) que el valor viejo" << std::endl;
+      return false;
+    }
   }
   // recursividad con modificar para buscar en arbol izquierda y sigguiente
   return Modificar(nodo->izquierda, valor_viejo, valor_nuevo) ||
