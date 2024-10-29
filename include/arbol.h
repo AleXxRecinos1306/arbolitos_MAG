@@ -5,9 +5,9 @@
 
 struct Arbol {
   int dato;
-  Arbol* derecha = nullptr;
-  Arbol* izquierda = nullptr;
-  Arbol* padre = nullptr;
+  Arbol* derecha;
+  Arbol* izquierda;
+  Arbol* padre;
 };
     
 void Menu();
@@ -21,11 +21,8 @@ bool BuscarArbol(Arbol* arbol, int n);
 void InOrden(Arbol* arbol);
 void Eliminar(Arbol *&arbol, int n);
 void EliminarAB(Arbol *&arbol, int n);
-void EliminarNodo(Arbol* nodo_eliminar);
-Arbol* EncontrarMin(Arbol* arbol);
-void Reemplazar(Arbol* arbol, Arbol* nuevo_nodo);
-void BorrarNodo(Arbol* nodo);
 bool Modificar(Arbol* arbol, int valor_viejo, int valor_nuevo);
 void LiberarMemoria(Arbol* arbol);
+void ReInsertar(Arbol *&raiz, Arbol *&sub_arbol);
 
 #endif

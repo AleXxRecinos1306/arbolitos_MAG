@@ -153,7 +153,11 @@ void Eliminar(Arbol *&arbol, int n) {
 
   if (arbol->dato == n) {
     //EliminarNodo(arbol);
-    arbol = nullptr;
+    Arbol *new_arbol = nullptr;
+    ReInsertar(new_arbol, arbol->izquierda);
+    ReInsertar(new_arbol, arbol->derecha);
+    delete arbol;
+    arbol = new_arbol;
   } else {
     if (n % 2 == 0) {
       EliminarAB(arbol->derecha, n);
@@ -175,63 +179,21 @@ void EliminarAB(Arbol *&arbol, int n) {
   } else if (n > arbol->dato) {
     EliminarAB(arbol->derecha, n);
   } else {
+    Arbol *raiz = arbol;
     arbol = nullptr;
+    ReInsertar(raiz->padre, raiz->izquierda);
+    ReInsertar(raiz->padre, raiz->derecha);
+    delete raiz;
   }
 }
 
-//Funcion para eliminar el nodo encontrado
-void EliminarNodo(Arbol* nodo_eliminar) {
-  if (nodo_eliminar->izquierda && nodo_eliminar->derecha) {
-    Arbol* menor = EncontrarMin(nodo_eliminar->derecha);
-    nodo_eliminar->dato = menor->dato;
-    EliminarNodo(menor);
-
-  } else if (nodo_eliminar->izquierda) {
-    Reemplazar(nodo_eliminar, nodo_eliminar->izquierda);
-    BorrarNodo(nodo_eliminar);
-  } else if (nodo_eliminar->derecha) {
-    Reemplazar(nodo_eliminar, nodo_eliminar->derecha);
-    BorrarNodo(nodo_eliminar);
-  } else {
-    Reemplazar(nodo_eliminar, nullptr);
-    BorrarNodo(nodo_eliminar);
+void ReInsertar(Arbol *&raiz, Arbol *&sub_arbol) {
+  if (sub_arbol == nullptr) {
+    return;
   }
-}
-
-//Funcion para determinar el nodo mas izquierdo posible
-Arbol* EncontrarMin(Arbol* arbol) {
-  if (arbol == nullptr) {
-    return nullptr;
-  }
-
-  if (arbol->izquierda) {
-    return EncontrarMin(arbol->izquierda);
-  } else {
-    return arbol;
-  }
-}
-
-//Funcion para reemplazar 2 nodos
-void Reemplazar(Arbol* arbol, Arbol* nuevo_nodo) {
-  if (arbol->padre) {
-    if (arbol->dato == arbol->padre->izquierda->dato) {
-      arbol->padre->izquierda = nuevo_nodo;
-    } else if (arbol->dato == arbol->padre->derecha->dato) {
-      arbol->padre->derecha = nuevo_nodo;
-    }
-  }
-
-  if (nuevo_nodo) {
-    nuevo_nodo->padre = arbol->padre;
-  }
-}
-
-//Funcion para borrar un nodo desconectado o flotante
-void BorrarNodo(Arbol* nodo) {
-  nodo->izquierda = nullptr;
-  nodo->derecha = nullptr;
-
-  delete nodo;
+  InsertarNodo(raiz,sub_arbol->dato);
+  ReInsertar(raiz, sub_arbol->izquierda);
+  ReInsertar(raiz, sub_arbol->derecha);
 }
 
 bool Modificar(Arbol* nodo, int valor_viejo, int valor_nuevo) {
