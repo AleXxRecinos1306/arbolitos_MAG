@@ -152,7 +152,6 @@ void Eliminar(Arbol *&arbol, int n) {
   }
 
   if (arbol->dato == n) {
-    //EliminarNodo(arbol);
     Arbol *new_arbol = nullptr;
     ReInsertar(new_arbol, arbol->izquierda);
     ReInsertar(new_arbol, arbol->derecha);
