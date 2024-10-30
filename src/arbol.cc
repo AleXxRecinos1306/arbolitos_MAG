@@ -1,20 +1,6 @@
 #include "arbol.h"
 #include "simple_list.h"
 
-void Menu() {
-  std::cout << std::endl;
-  std::cout << "Menu:" << std::endl;
-  std::cout << "1. Insertar un valor." << std::endl;
-  std::cout << "2. Mostrar Arbol." << std::endl;
-  std::cout << "3. Buscar un elemento en el Arbol." << std::endl;
-  std::cout << "4. Recorrer el arbol InOrden." << std::endl;
-  std::cout << "5. Eliminar un nodo." << std::endl;
-  std::cout << "6. Modificar un nodo." << std::endl;
-  std::cout << "7. Salir." << std::endl;
-  std::cout << "Ingrese la opcion que desea realizar: ";
-}
-
-//Funcion para saber si un elemento ya existe en el arbol
 Arbol* CrearNodo(int n, Arbol* padre) {
   Arbol* nuevo_nodo = new Arbol();
 
@@ -26,6 +12,7 @@ Arbol* CrearNodo(int n, Arbol* padre) {
   return nuevo_nodo;
 }
 
+//Funcion para saber si un elemento ya existe en el arbol
 bool Existe(Arbol* arbol, int n) {
   // Si el árbol está vacío, el número no existe
   if (arbol == nullptr) {
@@ -94,14 +81,14 @@ void MostrarArbol(Arbol* arbol, int contador) {
 
 //Funcion para buscar un elemento en el arbol
 //Mandar a llamar esta funcion
-bool Buscar(Arbol* arbol, int n) {
+Arbol* Buscar(Arbol* arbol, int n) {
   if (arbol == nullptr) {
-    return false;
+    return nullptr;
   }
 
   // Compara el valor ingresado con el dato del nodo actual
   if (n == arbol->dato) {
-    return true;
+    return arbol;
   }
 
   // Determina si el número es par o impar
@@ -114,12 +101,12 @@ bool Buscar(Arbol* arbol, int n) {
   }
 }
 
-bool BuscarArbol(Arbol* arbol, int n) {
+Arbol* BuscarArbol(Arbol* arbol, int n) {
   if (arbol == nullptr) {
-    return false;
+    return nullptr;
 
   } else if (arbol->dato == n) {
-    return true;
+    return arbol;
 
   } else if (n < arbol->dato) {
     return BuscarArbol(arbol->izquierda, n);
@@ -195,28 +182,23 @@ void ReInsertar(Arbol *&raiz, Arbol *&sub_arbol) {
   ReInsertar(raiz, sub_arbol->derecha);
 }
 
-bool Modificar(Arbol* nodo, int valor_viejo, int valor_nuevo) {
-  // Valor no encontrado
-  if (nodo == nullptr) {
-    return false;
-  }
-  // si coiciden se modifica el valor antiguo
-  if (nodo->dato == valor_viejo) {
-    if(Existe(nodo, valor_nuevo)){
-      std::cout << "El nuevo valor ya existe en el arbol" << std::endl;
-      return false;
-    }
-    if ((valor_viejo % 2 == 0 && valor_nuevo % 2 == 0) || (valor_viejo % 2 != 0 && valor_nuevo % 2 != 0)) {
+bool Modificar(Arbol* nodo, int valor_nuevo) {
+  // ambos pares o impares
+  if ((nodo->dato % 2 == 0 && valor_nuevo % 2 == 0) ||
+      (nodo->dato % 2 != 0 && valor_nuevo % 2 != 0)) {
+    // matiene la concistencia de mayor menor
+    if ((nodo->derecha == nullptr || valor_nuevo < nodo->derecha->dato) &&
+        (nodo->izquierda == nullptr || valor_nuevo > nodo->izquierda->dato)) {
       nodo->dato = valor_nuevo;
       return true;
-    }else{
-      std::cout << "El valor nuevo debe ser del mismo tipo (par/impar) que el valor viejo" << std::endl;
-      return false;
+    } else {
+      std::cout << "El valor nuevo no cumple con los requisitos de mayor "
+                   "o menor" << std::endl;
     }
+  } else {
+    std::cout << "El valor nuevo no cumple con los requisitos de par o impar" << std::endl;
   }
-  // recursividad con modificar para buscar en arbol izquierda y sigguiente
-  return Modificar(nodo->izquierda, valor_viejo, valor_nuevo) ||
-         Modificar(nodo->derecha, valor_viejo, valor_nuevo);
+  return false;
 }
 
 void LiberarMemoria(Arbol* arbol) {

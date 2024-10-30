@@ -2,6 +2,8 @@
 #include "arbol.h"
 #include "simple_list.h"
 
+void Menu();
+
 int main(int argc, char* argv[]) {
   Arbol* arbol = nullptr;
   int opcion, dato, valor_nuevo, valor_viejo;
@@ -27,13 +29,14 @@ int main(int argc, char* argv[]) {
       case 3:
         std::cout << "Ingrese el elemento a buscar: ";
         std::cin >> dato;
-        if (Buscar(arbol, dato) == true) {
+        if (Buscar(arbol, dato) != nullptr) {
           std::cout << "Elemento " << dato << " encontrado en el Arbol"
                     << std::endl;
         } else {
           std::cout << "Elemento no encontrado" << std::endl;
         }
         std::cout << std::endl;
+
         break;
 
       case 4:
@@ -49,17 +52,18 @@ int main(int argc, char* argv[]) {
         std::cout << std::endl;
         break;
 
-      case 6:
-        std::cout
-            << "Ingrese un valor existente en el Arbol para modificarlo: ";
+      case 6: {
+        std::cout << "Ingrese un valor existente en el Arbol para modificarlo: ";
         std::cin >> valor_viejo;
+        Arbol* nodo = Buscar(arbol, valor_viejo);
+        if (nodo == nullptr) {
+          std::cout << "El nodo no existe";
+          break;
+        }
         std::cout << "Ingrese un nuevo valor: ";
         std::cin >> valor_nuevo;
-        Modificar(arbol, valor_viejo, valor_nuevo);
-        std::cout << "Arbol despues de cambiar " << valor_viejo << " por "
-                  << valor_nuevo << ":" << std::endl;
-        InOrden(arbol);
-        break;
+        Modificar(nodo, valor_nuevo);
+      } break;
 
       case 7:
         LiberarMemoria(arbol);
@@ -74,4 +78,17 @@ int main(int argc, char* argv[]) {
   } while (opcion != 7);
 
   return 0;
+}
+
+void Menu() {
+  std::cout << std::endl;
+  std::cout << "Menu:" << std::endl;
+  std::cout << "1. Insertar un valor." << std::endl;
+  std::cout << "2. Mostrar Arbol." << std::endl;
+  std::cout << "3. Buscar un elemento en el Arbol." << std::endl;
+  std::cout << "4. Recorrer el arbol InOrden." << std::endl;
+  std::cout << "5. Eliminar un nodo." << std::endl;
+  std::cout << "6. Modificar un nodo." << std::endl;
+  std::cout << "7. Salir." << std::endl;
+  std::cout << "Ingrese la opcion que desea realizar: ";
 }
